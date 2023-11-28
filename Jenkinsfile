@@ -21,7 +21,7 @@ pipeline{
     
     stage("maven"){
        steps{
-         sh 'mvn -Dcargo.servlet.port=8080 cargo:start'
+         sh 'mvn clean compile'
        } 
     }
   }
