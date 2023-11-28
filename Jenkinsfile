@@ -30,5 +30,12 @@ pipeline{
         sh 'mvn clean install'
       }  
     }
+
+    stage("OWASP"){
+      steps{
+        dependencyCheck additionalArguments: '', odcInstallation: 'DP'
+        dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+      }  
+    }
   }
 }
