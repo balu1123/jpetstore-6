@@ -1,7 +1,7 @@
 pipeline{
    agent any
    tools{
-     jdk 'jdk1.8'
+     jdk 'jdk11'
      maven 'maven'
    }  
 
@@ -17,6 +17,12 @@ pipeline{
     stage("UNIT Test"){
       steps{
         sh 'mvn test'
+      }  
+    }
+
+    stage("Integration test"){
+      steps{
+        sh 'mvn verify -DskipUnitTests'
       }  
     }
    }
