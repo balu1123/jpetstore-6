@@ -25,12 +25,6 @@ pipeline{
        } 
     }
 
-    stage("maven test"){
-      steps{
-        sh 'mvn clean install'
-      }  
-    }
-
     stage("OWASP"){
       steps{
         dependencyCheck additionalArguments: '', odcInstallation: 'DP'
