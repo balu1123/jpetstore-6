@@ -38,7 +38,9 @@ pipeline{
 
    stage('Sonarqube-Analysis') {
             steps {
-               sh ''' $SCANNER_HOME/bin/sonar -Dsonar.url=http://34.226.199.231:9000/ -Dsonar.login=squ_1ec0a9e69d9cb9f1feb0dadec9710e24f97a5c3a -Dsonar.projectName=sonar \
+               sh ''' $SCANNER_HOME/bin/sonarqube -Dsonar.url=http://34.226.199.231:9000/
+                -Dsonar.login=squ_1ec0a9e69d9cb9f1feb0dadec9710e24f97a5c3a 
+                -Dsonar.projectName=sonar \
                 -Dsonar.java.binaries=. \
                 -Dsonar.projectKey=sonar '''
               
