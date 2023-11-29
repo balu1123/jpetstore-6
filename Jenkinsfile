@@ -4,9 +4,9 @@ pipeline{
      maven 'maven'
    }  
    
-   environment {
-        SCANNER_HOME= tool 'sonar'
-    }
+  // environment {
+  //      SCANNER_HOME= tool 'sonar'
+  //  }
 
    stages{
     stage("Git checkout"){
