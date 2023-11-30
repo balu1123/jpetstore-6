@@ -35,7 +35,7 @@ pipeline{
         dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
       }  
     }
-
+//
    stage('Sonarqube-Analysis') {
       steps {
                sh ''' $SCANNER_HOME/bin/sonarqube 
