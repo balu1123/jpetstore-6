@@ -1,14 +1,17 @@
 pipeline{
    agent any
    tools{
+     jdk 'jdk17'
      maven 'maven'
    }  
-   
-   environment {
-        SCANNER_HOME= tool 'sonarqube'
-    }
+        
+  stages{
+    stage ('clean Workspace'){
+            steps{
+                cleanWs()
+            }
+         }  
 
-   stages{
     stage("Git checkout"){
       steps{
         script{
@@ -17,35 +20,18 @@ pipeline{
       }  
     }
 
-    stage("UNIT Test"){
-      steps{
-        sh 'mvn test'
-      }  
-    }
-    
     stage("maven compile"){
        steps{
          sh 'mvn clean compile'
        } 
     }
 
-    stage("OWASP"){
+    stage("UNIT Test"){
       steps{
-        dependencyCheck additionalArguments: '', odcInstallation: 'DP'
-        dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        sh 'mvn test'
       }  
     }
-
-   stage('Sonarqube-Analysis') {
-      steps {
-               sh ''' $SCANNER_HOME/bin/sonarqube 
-                -Dsonar.url=http://54.224.88.186:9000/
-                -Dsonar.login=squ_1ec0a9e69d9cb9f1feb0dadec9710e24f97a5c3a 
-                -Dsonar.projectName=petstore \
-                -Dsonar.java.binaries=. \
-                -Dsonar.projectKey=sonar_cred '''
-              
-            }
-          }
+  
   }
 }
+    
