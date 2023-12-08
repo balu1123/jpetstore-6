@@ -40,7 +40,7 @@ pipeline{
             steps{
                 withSonarQubeEnv('sonar-server') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Petshop \
-                    -Dsonar.java.binaries=. \
+                    -Dsonar.java.binaries= **/*.java
                     -Dsonar.projectKey=Petshop '''
                 }
             }
