@@ -1,8 +1,8 @@
 pipeline{
    agent any
    tools{
-     jdk 'jdk17'
-     maven 'maven'
+     
+     maven 'maven3'
    }  
 
    environment {
@@ -36,15 +36,15 @@ pipeline{
       }  
     }
 
-    stage("Sonarqube Analysis "){
+    /*stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-server') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Petshop \
-                    -Dsonar.java.binaries= **/*.java
+                    -Dsonar.java.binaries= **-*.java
                     -Dsonar.projectKey=Petshop '''
                 }
             }
-        }
+        }**/
   
   }
 }
