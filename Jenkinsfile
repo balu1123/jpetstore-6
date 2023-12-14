@@ -5,9 +5,9 @@ pipeline{
      maven 'maven3'
    }  
 
-   /*environment {
+   environment {
         SCANNER_HOME=tool 'sonar-scanner'
-    }*/
+    }
         
   stages{
     stage ('clean Workspace'){
@@ -36,15 +36,15 @@ pipeline{
       }  
     }
 
-    /*stage("Sonarqube Analysis "){
+    stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-server') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Petshop \
-                    -Dsonar.java.binaries= **-*.java
+                    -Dsonar.java.binaries= **/*.java
                     -Dsonar.projectKey=Petshop '''
                 }
             }
-        }**/
+        }
   
   }
 }
