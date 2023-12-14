@@ -39,9 +39,7 @@ pipeline{
     stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar') {
-                    sh ''' $SCANNER_HOME/bin/sonar -Dsonar.projectName=Petshop \
-                    -Dsonar.java.binaries= **/*.java
-                    -Dsonar.projectKey=Petshop '''
+                    sh "$SCANNER_HOME/bin/sonar --version"
                 }
             }
         }
