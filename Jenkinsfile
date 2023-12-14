@@ -5,9 +5,9 @@ pipeline{
      maven 'maven3'
    }  
 
-   environment {
+   /*environment {
         SCANNER_HOME=tool 'sonar-scanner'
-    }
+    }*/
         
   stages{
     stage ('clean Workspace'){
