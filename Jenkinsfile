@@ -38,8 +38,8 @@ pipeline{
 
     stage("Sonarqube Analysis "){
             steps{
-                withSonarQubeEnv('sonar') {
-                    sh "$scannerHome/bin/sonar --version"
+                withSonarQubeEnv('sonar-scanner') {
+                    sh "$scannerHome/bin/sonar-scanner --version"
                 }
             }
         }
