@@ -1,52 +1,58 @@
-pipeline{
-   agent any
-   tools{
-     
-     maven 'maven'
-   }  
-
-   environment {
-        scannerHome = tool 'sonar-scanner'
-    }
+pipeline {
+    agent any
+    tools{
         
-  stages{
-    stage ('clean Workspace'){
-            steps{
-                cleanWs()
-            }
-         }  
-
-    stage("Git checkout"){
-      steps{
-        script{
-          git changelog: false, poll: false, url: 'https://github.com/balu1123/jpetstore-6.git'
-        }
-      }  
+        maven  'maven'
     }
-
-    stage("maven compile"){
-       steps{
-         sh 'mvn clean compile'
-       } 
-    }
-
-    stage("UNIT Test"){
-      steps{
-        sh 'mvn test'
-      }  
-    }
-
-    stage("Sonarqube Analysis "){
-            steps{
-                withSonarQubeEnv('sonar-scanner') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner 
-                    -Dsonar.projectName=Petshop \
-                    -Dsonar.java.binaries= **/*.java
-                    -Dsonar.projectKey=Petshop '''
-                }
-            }
-        }
-  
-  }
-}
     
+    environment{
+        SCANNER_HOME= tool 'sonar-scanner'
+    }
+
+    stages {
+        stage("Git Checkout"){
+            steps {
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/balu1123/jpetstore-6.git'
+            }
+        }
+
+        stage("COMPILE"){
+            steps {
+                sh "mvn clean compile"
+            }
+        }
+
+        stage("Build"){
+            steps {
+                sh "mvn clean package -DskipTests=true"
+            }
+        }
+
+        stage("OWASP"){
+          steps{
+            dependencyCheck additionalArguments: '', odcInstallation: 'DP'
+            dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+          }  
+        }
+        
+        stage("Sonarqube") {
+            steps {
+                withSonarQubeEnv('sonar-scanner'){
+                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=petstore \
+                   -Dsonar.java.binaries=. \
+                   -Dsonar.projectKey=petstore '''
+               }
+            }
+        }
+
+        /*stage("Nexus"){
+          steps{
+            withMaven(globalMavenSettingsConfig: 'global-settings-xml') {
+     
+            sh 'mvn deploy -DskipTests=true'   
+              }
+            
+          }  
+        }*/
+    }
+}       
